@@ -4,8 +4,16 @@
   "description": "",
   "type": "module",
   "main": "index.js",
+  "bin": "index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "pkg": "pkg ."
+  },
+  "pkg": {
+    "targets": [
+      "node16-win-x64"
+    ],
+    "outputPath": "bin"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +21,8 @@
   "dependencies": {
     "ora": "^6.1.0",
     "qrcode": "^1.5.0"
+  },
+  "devDependencies": {
+    "pkg": "^5.7.0"
   }
 }

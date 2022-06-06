@@ -1,7 +1,6 @@
-import QRCode from 'qrcode'
-import ora from 'ora'
-import path from 'path'
-import fs from 'fs'
+const QRCode = require('qrcode')
+const path = require('path')
+const fs = require('fs')
 
 const filepath = process.argv[2]
 
@@ -10,21 +9,20 @@ if (!fs.existsSync(path.resolve(filepath))) {
     process.exit(1)
 }
 
-const spinner = ora(`Loading ${filepath}`).start()
+console.log(`Loading ${filepath}`)
 const configs = JSON.parse(fs.readFileSync(filepath, { encoding: 'utf8' }))
-spinner.info(`Loaded ${configs.length} QR data`)
+console.info(`Loaded ${configs.length} QR data`)
 
-spinner.text = 'Generando QRs...'
+console.log('Generando QRs...')
 if (!fs.existsSync(path.resolve('./out'))) {
-    spinner.warn('out folder not exists')
+    console.warn('out folder not exists')
     fs.mkdirSync('./out')
-    spinner.info('Created out folder')
+    console.info('Created out folder')
 }
 
 configs.forEach(obj => {
-    spinner.text = `Generating ${obj.name}...`
-    QRCode.toFile(`./out/${obj.name}.png`, JSON.stringify(obj.data), err => err && spinner.fail(`Error generating ${obj.name}: ${err}`))
-    spinner.succeed(`Generated ${obj.name}.png`)
+    QRCode.toFile(`./out/${obj.name}.png`, JSON.stringify(obj.data), err => err && console.error(`Error generating ${obj.name}: ${err}`))
+    console.info(`Generated ${obj.name}.png`)
 })
 
-spinner.info('QRs generated in out folder')
+console.info('QRs generated in out folder')
